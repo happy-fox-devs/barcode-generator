@@ -336,7 +336,7 @@ export function PagePreview({
       ]);
 
       toast.success(`${t("copied")} - ${t("fullPageCopied")}`);
-    } catch (error) {
+    } catch {
       toast.error(`${t("error")} - ${t("couldNotCopy")}`);
     }
   };
