@@ -3,7 +3,7 @@ import JsBarcode from "jsbarcode";
 export const generateBarcode = (
   canvas: HTMLCanvasElement,
   text: string,
-  options: any
+  options: any,
 ) => {
   const ctx = canvas.getContext("2d");
   if (!ctx) return;
@@ -31,7 +31,7 @@ export const generateBarcode = (
 
     const barsHeight = Math.max(
       20,
-      innerHeight - headerHeight - textHeight - totalGaps
+      innerHeight - headerHeight - textHeight - totalGaps,
     );
 
     let currentY = padding;
@@ -84,7 +84,7 @@ export const generateBarcode = (
 const generateSimulatedBarcode = (
   canvas: HTMLCanvasElement,
   text: string,
-  options: any
+  options: any,
 ) => {
   const ctx = canvas.getContext("2d");
   if (!ctx) return;
@@ -104,7 +104,7 @@ const generateSimulatedBarcode = (
 
   const barsHeight = Math.max(
     20,
-    innerHeight - headerHeight - textHeight - totalGaps
+    innerHeight - headerHeight - textHeight - totalGaps,
   );
 
   let currentY = padding;

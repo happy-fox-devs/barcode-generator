@@ -23,17 +23,29 @@ export function LanguageSelector({
 
   return (
     <div className="flex items-center space-x-2">
-      <label className="text-xs text-slate-600">{t("language")}:</label>
+      <label className="text-xs text-neutral-600 dark:text-neutral-400">
+        {t("language")}:
+      </label>
       <Select
         value={language}
         onValueChange={(value: Language) => onLanguageChange(value)}
       >
-        <SelectTrigger className="h-7 w-24 text-xs">
+        <SelectTrigger className="h-7 w-24 text-xs dark:border-neutral-950 dark:bg-neutral-950 dark:text-neutral-200 dark:hover:bg-black">
           <SelectValue />
         </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="en">{t("english")}</SelectItem>
-          <SelectItem value="es">{t("spanish")}</SelectItem>
+        <SelectContent className="dark:border-neutral-950 dark:bg-neutral-950 dark:text-neutral-200">
+          <SelectItem
+            className="dark:focus:text-neutral-200 dark:data-[highlighted]:bg-black"
+            value="en"
+          >
+            {t("english")}
+          </SelectItem>
+          <SelectItem
+            className="dark:focus:text-neutral-200 dark:data-[highlighted]:bg-black"
+            value="es"
+          >
+            {t("spanish")}
+          </SelectItem>
         </SelectContent>
       </Select>
     </div>

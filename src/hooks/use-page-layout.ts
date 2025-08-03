@@ -54,7 +54,7 @@ export function calculatePageLayout(
   barcodeWidth: number,
   barcodeHeight: number,
   dimensionUnit: string,
-  codes: string[]
+  codes: string[],
 ): PageLayout {
   const {
     pageWidth,
@@ -96,8 +96,8 @@ export function calculatePageLayout(
   const codesPerRow = Math.max(
     1,
     Math.floor(
-      (availableWidth + gapHorizontalPx) / (barcodeWidthPx + gapHorizontalPx)
-    )
+      (availableWidth + gapHorizontalPx) / (barcodeWidthPx + gapHorizontalPx),
+    ),
   );
 
   const totalRows = Math.ceil(codes.length / codesPerRow);
@@ -109,8 +109,8 @@ export function calculatePageLayout(
     rowsPerPage = Math.max(
       1,
       Math.floor(
-        (availableHeight + gapVerticalPx) / (barcodeHeightPx + gapVerticalPx)
-      )
+        (availableHeight + gapVerticalPx) / (barcodeHeightPx + gapVerticalPx),
+      ),
     );
   }
 

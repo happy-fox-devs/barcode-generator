@@ -98,7 +98,7 @@ export function PagePreview({
     rowIndex: number,
     availableWidth: number,
     totalWidthOfRow: number,
-    alignment: HorizontalAlignment
+    alignment: HorizontalAlignment,
   ): number => {
     const startX = marginLeftPx;
 
@@ -124,7 +124,7 @@ export function PagePreview({
   const calculateYPosition = (
     availableHeight: number,
     totalHeightOfCodes: number,
-    alignment: VerticalAlignment
+    alignment: VerticalAlignment,
   ): number => {
     const startY = marginTopPx;
 
@@ -159,7 +159,7 @@ export function PagePreview({
         marginLeftPx * scale,
         marginTopPx * scale,
         (finalPageWidth - marginLeftPx - marginRightPx) * scale,
-        (finalPageHeight - marginTopPx - marginBottomPx) * scale
+        (finalPageHeight - marginTopPx - marginBottomPx) * scale,
       );
       ctx.setLineDash([]);
 
@@ -171,7 +171,7 @@ export function PagePreview({
       const previewCodesPerPage = codesPerRow * previewRowsPerPage;
 
       const totalRows = Math.ceil(
-        Math.min(codes.length, previewCodesPerPage) / codesPerRow
+        Math.min(codes.length, previewCodesPerPage) / codesPerRow,
       );
       const totalHeightOfCodes =
         totalRows * barcodeHeightPx + (totalRows - 1) * gapVerticalPx;
@@ -179,7 +179,7 @@ export function PagePreview({
       const startY = calculateYPosition(
         availableHeight,
         totalHeightOfCodes,
-        verticalAlignment
+        verticalAlignment,
       );
 
       const codesToShow = codes.slice(0, previewCodesPerPage);
@@ -208,7 +208,7 @@ export function PagePreview({
           rowIndex,
           availableWidth,
           totalRowWidth,
-          horizontalAlignment
+          horizontalAlignment,
         );
 
         for (let colIndex = 0; colIndex < codesInThisRow.length; colIndex++) {
@@ -257,7 +257,7 @@ export function PagePreview({
             x * scale,
             y * scale,
             barcodeWidthPx * scale,
-            barcodeHeightPx * scale
+            barcodeHeightPx * scale,
           );
         }
       }
@@ -270,7 +270,7 @@ export function PagePreview({
               codes.length
             }, showing first ${codesToShow.length})`
           : `${t("codesPerPage")}: ${codesPerRow * rowsPerPage} | ${t(
-              "total"
+              "total",
             )}: ${codes.length}`;
 
       ctx.fillText(previewText, 10 * scale, (finalPageHeight - 10) * scale);
@@ -318,7 +318,7 @@ export function PagePreview({
     }
 
     toast.success(
-      `${t("downloadStarted")} - ${t("pageDownloaded")} ${format.toUpperCase()}`
+      `${t("downloadStarted")} - ${t("pageDownloaded")} ${format.toUpperCase()}`,
     );
   };
 
@@ -342,36 +342,42 @@ export function PagePreview({
   };
 
   return (
-    <Card className="px-4 py-2 gap-2 h-0 grow overflow-hidden relative">
-      <CardHeader className="p-0 gap-0">
-        <CardTitle className="text-sm">{t("pagePreview")}</CardTitle>
+    <Card className="relative h-0 grow gap-2 overflow-hidden px-4 py-2 dark:border-neutral-950 dark:bg-neutral-900">
+      <CardHeader className="gap-0 p-0">
+        <CardTitle className="text-sm dark:text-neutral-200">
+          {t("pagePreview")}
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <div className="flex flex-col items-center space-y-4">
-          <div className="border border-slate-300 rounded p-4 bg-slate-200 overflow-auto">
-            <canvas ref={canvasRef} className="max-w-full h-auto" />
+          <div className="overflow-auto rounded border border-neutral-300 bg-neutral-200 p-4">
+            <canvas ref={canvasRef} className="h-auto max-w-full" />
           </div>
 
-          <div className="flex flex-wrap gap-2 justify-center absolute bottom-0 m-2 right-0">
-            <Button onClick={print} size="sm" className="gap-2 bg-blue-400">
-              <Printer className="w-3 h-3" />
+          <div className="absolute right-0 bottom-0 m-2 flex flex-wrap justify-center gap-2">
+            <Button
+              onClick={print}
+              size="sm"
+              className="gap-2 bg-blue-400 dark:bg-blue-900 dark:hover:bg-blue-950"
+            >
+              <Printer className="h-3 w-3" />
               {t("print")}
             </Button>
             <Button
               onClick={() => downloadBarcode("png")}
               size="sm"
-              className="gap-2"
+              className="gap-2 dark:bg-neutral-600 dark:hover:bg-neutral-700"
             >
-              <Download className="w-3 h-3" />
+              <Download className="h-3 w-3" />
               {t("downloadPNG")}
             </Button>
             <Button
               onClick={copyToClipboard}
               size="sm"
-              className="gap-2"
+              className="gap-2 dark:bg-white dark:hover:border-neutral-400 dark:hover:bg-neutral-400"
               variant={"outline"}
             >
-              <Copy className="w-3 h-3" />
+              <Copy className="h-3 w-3" />
               {t("copy")}
             </Button>
           </div>

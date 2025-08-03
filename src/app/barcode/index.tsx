@@ -75,19 +75,21 @@ export default function BarcodeGenerator() {
     barcodeData.barcodeWidth,
     barcodeData.barcodeHeight,
     barcodeData.dimensionUnit,
-    codes
+    codes,
   );
 
   return (
-    <div className="min-h-[600px] bg-gradient-to-br from-slate-50 to-slate-100 w-screen box-border flex flex-col h-screen">
-      <div className="mx-auto max-w-7xl flex flex-col grow">
+    <div className="box-border flex h-screen min-h-[600px] w-screen flex-col bg-gradient-to-br from-neutral-50 to-neutral-100 dark:from-neutral-800 dark:to-neutral-700">
+      <div className="mx-auto flex max-w-7xl grow flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between h-[100px]">
-          <div className="text-center flex-1">
-            <h1 className="text-3xl font-bold text-slate-900 mb-2">
+        <div className="flex h-[100px] items-center justify-between">
+          <div className="flex-1 text-center">
+            <h1 className="mb-2 text-3xl font-bold text-neutral-900 dark:text-neutral-100">
               {t("title")}
             </h1>
-            <p className="text-slate-600">{t("subtitle")}</p>
+            <p className="text-neutral-600 dark:text-neutral-400">
+              {t("subtitle")}
+            </p>
           </div>
           <div className="ml-4">
             <LanguageSelector
@@ -97,22 +99,32 @@ export default function BarcodeGenerator() {
           </div>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-2 h-0 grow">
+        <div className="grid h-0 grow gap-2 lg:grid-cols-3">
           {/* Configuration Panel - Con altura máxima y scroll */}
-          <div className="lg:col-span-1 space-y-2 h-auto overflow-hidden min-h-[470px] p-2 pr-0">
+          <div className="h-auto min-h-[470px] space-y-2 overflow-hidden p-2 pr-0 lg:col-span-1">
             <Tabs
               value={activeTab}
               onValueChange={handleTabChange}
-              className="w-full h-full"
+              className="h-full w-full"
             >
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="design">{t("design")}</TabsTrigger>
-                <TabsTrigger value="page">{t("page")}</TabsTrigger>
+              <TabsList className="grid w-full grid-cols-2 dark:border-neutral-900 dark:bg-neutral-800">
+                <TabsTrigger
+                  className="border-none dark:data-[state=active]:bg-neutral-900 dark:data-[state=active]:text-neutral-100"
+                  value="design"
+                >
+                  {t("design")}
+                </TabsTrigger>
+                <TabsTrigger
+                  className="dark:data-[state=active]:border-neutral-950 dark:data-[state=active]:bg-neutral-900 dark:data-[state=active]:text-neutral-100"
+                  value="page"
+                >
+                  {t("page")}
+                </TabsTrigger>
               </TabsList>
 
               {/* Contenido con scroll */}
-              <div className="h-0 grow overflow-y-auto bg-white rounded-xl shadow-sm border">
-                <TabsContent value="design" className="space-y-2 mt-2">
+              <div className="h-0 grow overflow-y-auto rounded-xl border bg-white shadow-sm dark:border-neutral-950 dark:bg-neutral-900">
+                <TabsContent value="design" className="mt-2 space-y-2">
                   <BarcodeSettings
                     barcodeData={barcodeData}
                     setBarcodeData={setBarcodeData}
@@ -123,7 +135,7 @@ export default function BarcodeGenerator() {
                   />
                 </TabsContent>
 
-                <TabsContent value="page" className="space-y-2 mt-2">
+                <TabsContent value="page" className="mt-2 space-y-2">
                   <PageSettings
                     pageOptions={pageOptions}
                     setPageOptions={setPageOptions}
@@ -135,7 +147,7 @@ export default function BarcodeGenerator() {
           </div>
 
           {/* Preview Panel - Con altura máxima */}
-          <div className="lg:col-span-2 h-full flex flex-col gap-2 min-h-[470px] p-2 pl-0">
+          <div className="flex h-full min-h-[470px] flex-col gap-2 p-2 pl-0 lg:col-span-2">
             {/* Individual codes */}
             <div className="grid grid-cols-2 gap-2">
               <BarcodePreview

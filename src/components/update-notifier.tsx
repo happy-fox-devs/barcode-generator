@@ -21,8 +21,8 @@ export function UpdateNotifier() {
   if (!updateDownloaded) return null;
 
   return (
-    <div className="fixed bottom-4 right-4 bg-white p-4 rounded shadow-lg border space-y-2 z-50">
-      <p className="text-sm text-slate-700 font-medium">
+    <div className="fixed right-4 bottom-4 z-50 space-y-2 rounded border bg-white p-4 shadow-lg">
+      <p className="text-sm font-medium text-neutral-700">
         {t("updateDownloaded")}
       </p>
       <Button onClick={() => window.api?.quitAndInstall?.()} size="sm">

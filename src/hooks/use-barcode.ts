@@ -38,7 +38,7 @@ export function useBarcodeData() {
   const [barcodeData, setBarcodeDataState] =
     useState<BarcodeData>(defaultBarcodeData);
   const [sequenceOptions, setSequenceOptionsState] = useState<SequenceOptions>(
-    defaultSequenceOptions
+    defaultSequenceOptions,
   );
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -46,7 +46,7 @@ export function useBarcodeData() {
     async function load() {
       const loadedBarcodeData = await loadBarcodeData(defaultBarcodeData);
       const loadedSequenceOptions = await loadSequenceOptions(
-        defaultSequenceOptions
+        defaultSequenceOptions,
       );
 
       const correctedBarcodeData = {

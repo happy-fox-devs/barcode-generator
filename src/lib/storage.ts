@@ -37,7 +37,7 @@ export const saveToStorage = async (key: string, data: any): Promise<void> => {
 
 export const loadFromStorage = async <T>(
   key: string,
-  defaultValue: T
+  defaultValue: T,
 ): Promise<T> => {
   try {
     await ensureConfigLoaded();

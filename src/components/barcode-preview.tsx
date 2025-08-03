@@ -76,15 +76,15 @@ export function BarcodePreview({
   ]);
 
   return (
-    <Card className="px-4 py-2 gap-2">
-      <CardHeader className="p-0 gap-0">
-        <CardTitle className="text-sm">{title}</CardTitle>
+    <Card className="gap-2 px-4 py-2 dark:border-neutral-950 dark:bg-neutral-900">
+      <CardHeader className="gap-0 p-0">
+        <CardTitle className="text-sm dark:text-neutral-200">{title}</CardTitle>
       </CardHeader>
       <CardContent className="flex justify-center">
-        <div className="border border-slate-200 rounded p-2 bg-slate-100">
+        <div className="rounded border border-neutral-200 bg-neutral-100 p-2 dark:bg-neutral-300">
           <canvas
             ref={canvasRef}
-            className="max-w-full h-auto"
+            className="h-auto max-w-full"
             style={{ maxWidth: "200px", maxHeight: "100px" }}
           />
         </div>
