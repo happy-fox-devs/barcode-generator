@@ -1,9 +1,3 @@
-function artifactName({ arch, ext, type }) {
-  const isPortable = type === "portable";
-  const base = `BarcodeGenerator-${arch}`;
-  return `${base}-${isPortable ? "portable" : "installer"}.${ext}`;
-}
-
 /** @type {import('electron-builder').Configuration} */
 module.exports = {
   appId: "com.happyfox-devs.barcodegenerator",
