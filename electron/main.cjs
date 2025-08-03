@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require("electron");
+const { app, BrowserWindow, ipcMain, Menu } = require("electron");
 const fs = require("fs");
 const path = require("path");
 const { autoUpdater } = require("electron-updater");
@@ -6,13 +6,11 @@ const { autoUpdater } = require("electron-updater");
 const isDev = !app.isPackaged;
 const devURL = "http://localhost:5173";
 
-if (isDev) {
-  configPath = path.join(app.getPath("userData"), "config.json");
-} else {
-  const configDir = path.join(process.cwd(), "data");
-  if (!fs.existsSync(configDir)) fs.mkdirSync(configDir);
-  configPath = path.join(configDir, "config.json");
-}
+const userDataPath = app.getPath("userData");
+
+const configPath = path.join(userDataPath, "config.json");
+
+if (isDev) Menu.setApplicationMenu(null);
 
 let win;
 
@@ -30,21 +28,32 @@ function createWindow() {
   if (isDev) {
     win.loadURL(devURL);
   } else {
-    win.loadFile(path.join(__dirname, "../dist/index.html"));
-    win.webContents.session.webRequest.onHeadersReceived(
-      (details, callback) => {
-        callback({
-          responseHeaders: {
-            ...details.responseHeaders,
-            "Content-Security-Policy": ["default-src 'self'"],
-          },
-        });
-      }
-    );
+    win.removeMenu();
+    win.setMenuBarVisibility(false);
+    win.loadFile(path.join(__dirname, "..", "dist", "index.html"));
   }
 }
 
-// IPC: guardar y leer configuraciones
+app.whenReady().then(() => {
+  createWindow();
+
+  app.on("window-all-closed", () => {
+    win = null;
+
+    if (!BrowserWindow.getAllWindows().length) {
+      app.quit();
+    }
+  });
+
+  app.on("activate", () => {
+    if (BrowserWindow.getAllWindows().length === 0) createWindow();
+  });
+});
+
+app.on("quit", () => {
+  win = null;
+});
+
 ipcMain.handle("read-config", () => {
   try {
     if (!fs.existsSync(configPath)) return {};
@@ -65,40 +74,27 @@ ipcMain.handle("write-config", (event, data) => {
 
 ipcMain.handle("print", () => {
   if (!win) return;
-
   win.webContents.print(
     {
       silent: false,
       printBackground: true,
     },
-    (success, errorType) => {
-      if (!success) console.error("Error printing:", errorType);
+    (ok, err) => {
+      if (!ok) console.error("Print error:", err);
     }
   );
 });
 
-app.whenReady().then(() => {
-  createWindow();
-
-  app.on("window-all-closed", () => {
-    if (process.platform !== "darwin") app.quit();
-  });
-
-  app.on("activate", () => {
-    if (BrowserWindow.getAllWindows().length === 0) createWindow();
-  });
-});
-
-autoUpdater.checkForUpdatesAndNotify();
-
 autoUpdater.on("update-available", () => {
   win.webContents.send("update_available");
 });
-
 autoUpdater.on("update-downloaded", () => {
   win.webContents.send("update_downloaded");
 });
-
 ipcMain.on("quit_and_install", () => {
+  if (win && !win.isDestroyed()) {
+    win.removeAllListeners("close");
+    win.destroy();
+  }
   autoUpdater.quitAndInstall();
 });
