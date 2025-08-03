@@ -8,5 +8,6 @@ interface Window {
     onUpdateAvailable: (callback: any) => Promise<void>;
     onUpdateDownloaded: (callback: any) => Promise<void>;
     quitAndInstall: () => Promise<void>;
+    openExternalLink: (url: string) => Promise<void>;
   };
 }

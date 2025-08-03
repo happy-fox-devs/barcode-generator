@@ -13,9 +13,15 @@ export function FooterStats({ language }: FooterStatsProps) {
 
   return (
     <div className="flex h-[35px]">
-      <div className="text-xs text-slate-400 font-mono px-4 py-2 rounded content-center text-right w-full">
+      <div className="w-full content-center rounded px-4 py-2 text-right font-mono text-xs text-neutral-400">
         {t("poweredBy")}{" "}
-        <a href="https://github.com/happy-fox-devs">HappyFox.devs</a>
+        <a
+          className="underline hover:text-blue-600 dark:hover:text-blue-400"
+          href="https://github.com/happy-fox-devs"
+          target="_blank"
+        >
+          HappyFox.devs
+        </a>
       </div>
     </div>
   );

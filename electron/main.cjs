@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, Menu } = require("electron");
+const { app, BrowserWindow, ipcMain, Menu, shell } = require("electron");
 const fs = require("fs");
 const path = require("path");
 const { autoUpdater } = require("electron-updater");
@@ -10,7 +10,7 @@ const userDataPath = app.getPath("userData");
 
 const configPath = path.join(userDataPath, "config.json");
 
-if (isDev) Menu.setApplicationMenu(null);
+if (!isDev) Menu.setApplicationMenu(null);
 
 let win;
 
@@ -81,9 +81,13 @@ ipcMain.handle("print", () => {
     },
     (ok, err) => {
       if (!ok) console.error("Print error:", err);
-    }
+    },
   );
 });
+
+ipcMain.handle("open-external-link", (event, { url }) =>
+  shell.openExternal(url),
+);
 
 autoUpdater.on("update-available", () => {
   win.webContents.send("update_available");
