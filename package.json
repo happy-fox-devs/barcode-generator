@@ -13,7 +13,7 @@
     "dev": "concurrently -k -n VITE,ELECTRON -c cyan,green \"vite\" \"pnpm:electron:dev\"",
     "electron:dev": "wait-on tcp:5173 && electronmon electron/main.cjs",
     "build:renderer": "tsc -b && vite build",
-    "build": "pnpm build:renderer && electron-builder --config builder.config.json",
+    "build": "pnpm build:renderer && electron-builder --config electron-builder.config.cjs",
     "lint": "eslint .",
     "preview": "vite preview"
   },
