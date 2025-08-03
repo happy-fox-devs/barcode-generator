@@ -1,7 +1,7 @@
 {
   "name": "barcode-generator",
   "description": "Basic barcode generator",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "electron/main.cjs",
   "author": {
     "email": "yasnoadriandatos@gmail.com",
