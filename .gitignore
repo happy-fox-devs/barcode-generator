@@ -29,5 +29,5 @@ pnpm-workspace.yaml
 .vercel
 
 # Build
-.dist
-.electron
+.build
+dist
