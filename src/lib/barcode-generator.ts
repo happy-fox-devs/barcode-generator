@@ -53,12 +53,24 @@ export const generateBarcode = (
 
       JsBarcode(tempCanvas, text, {
         format: options.format || "CODE128",
-        width: options.barWidth || 2,
+        width: 10,
         height: Math.max(20, barsHeight - 10),
         displayValue: false,
         background: options.background,
         lineColor: options.lineColor,
         margin: 0,
+
+        fontSize: 0,
+        textMargin: 0,
+        fontOptions: "",
+        font: "monospace",
+        textAlign: "center",
+        textPosition: "bottom",
+        valid: (valid) => {
+          if (!valid && options.onInvalid) {
+            options.onInvalid();
+          }
+        },
       });
 
       ctx.drawImage(tempCanvas, padding, currentY, innerWidth, barsHeight);
@@ -182,7 +194,6 @@ export const generateFullSizePage = (layout: any, barcodeData: any) => {
     displayValue,
     background,
     lineColor,
-    barWidth,
     barcodeType,
     padding,
     showHeader,
@@ -191,19 +202,25 @@ export const generateFullSizePage = (layout: any, barcodeData: any) => {
     elementGap,
   } = barcodeData;
 
-  const availableWidth = finalPageWidth - marginLeftPx - marginRightPx;
-
-  const totalRows = Math.ceil(codes.length / codesPerRow);
-
-  const totalCodesHeight =
-    totalRows * barcodeHeightPx + (totalRows - 1) * gapVerticalPx;
-  const totalHeight = marginTopPx + totalCodesHeight + marginBottomPx;
+  const finalHeight = (() => {
+    const totalRows = Math.ceil(codes.length / codesPerRow);
+    const totalCodesHeight =
+      totalRows * barcodeHeightPx + (totalRows - 1) * gapVerticalPx;
+    return marginTopPx + totalCodesHeight + marginBottomPx;
+  })();
 
   canvas.width = finalPageWidth;
-  canvas.height = totalHeight;
+  canvas.height = finalHeight;
+
+  ctx.imageSmoothingEnabled = false;
+  ctx.textRendering = "optimizeLegibility";
 
   ctx.fillStyle = "#ffffff";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  const availableWidth = finalPageWidth - marginLeftPx - marginRightPx;
+
+  const totalRows = Math.ceil(codes.length / codesPerRow);
 
   let startY = marginTopPx;
   switch (verticalAlignment) {
@@ -274,13 +291,14 @@ export const generateFullSizePage = (layout: any, barcodeData: any) => {
         displayValue,
         background,
         lineColor,
-        barWidth,
+        barWidth: 10,
         format: barcodeType,
         padding,
         showHeader,
         headerText,
         headerFontSize,
         elementGap,
+        onInvalid: () => console.warn(`Invalid barcode: ${code}`),
       });
 
       ctx.drawImage(tempCanvas, x, y, barcodeWidthPx, barcodeHeightPx);
